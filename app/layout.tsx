@@ -2,6 +2,8 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
+import SideMenu from '@/components/SideMenu/SideMenu'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -16,7 +18,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} flex flex-row top-0 left-0 right-0 bottom-0 overflow-hidden w-[100dvw] h-[100dvh]`}>
+        <SideMenu />
         {children}
       </body>
     </html>

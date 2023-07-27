@@ -1,10 +1,22 @@
 import React from 'react'
+import { FiEdit } from 'react-icons/fi'
 
 type Props = {}
 
+// Chat Sidebar
 const RoomList = (props: Props) => {
   return (
-    <div>RoomList</div>
+    <div>
+      <div className='flex flex-row justify-between'>
+        <div>
+          Chats
+        </div>
+
+        <div>
+          <FiEdit />
+        </div>
+      </div>
+    </div>
   )
 }
 
