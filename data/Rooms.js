@@ -1,4 +1,4 @@
-export default Rooms = [
+export const Rooms = [
   {
     "_id": "1",
     "room_token": "QWERTY",
