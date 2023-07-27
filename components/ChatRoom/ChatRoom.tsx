@@ -4,7 +4,9 @@ type Props = {}
 
 const ChatRoom = (props: Props) => {
   return (
-    <div>ChatRoom</div>
+    <div className='w-full h-full flex flex-row justify-center items-center'>
+      Under construction...
+    </div>
   )
 }
 

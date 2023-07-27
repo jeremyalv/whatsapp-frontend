@@ -23,11 +23,11 @@ export default function Home() {
     )
   }
   return (
-    <div className="h-full w-full flex flex-row">
-      <div className="w-[35dvw] h-full bg-gray-200">
+    <div className="h-full w-full flex flex-row bg-chat-background">
+      <div className="w-[35dvw] h-full">
         <RoomList />
       </div>
-      <div className="w-full h-full bg-gray-300 ml-auto right-0">
+      <div className="w-full h-full ml-auto right-0">
         <ChatRoom />
       </div>
     </div>

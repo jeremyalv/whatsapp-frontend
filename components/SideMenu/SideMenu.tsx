@@ -13,7 +13,7 @@ type Props = {}
 
 const SideMenu = (props: Props) => {
   return (
-    <div className='flex flex-col h-[100dvh] w-[3.5dvw] bg-primary-500 items-center justify-between pt-3 pb-2.5'>
+    <div className='flex flex-col h-[100dvh] w-[3.5dvw] bg-primary-600 items-center justify-between pt-3 pb-2.5'>
       {/* Sidebar Menu */}
       <div>
         <div className='py-2.5 px-2 hover:bg-gray-100 hover:bg-opacity-25 hover:cursor-pointer'>

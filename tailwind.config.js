@@ -27,8 +27,17 @@ module.exports = {
           '900': '#14532d',
           '950': '#052e16',
         },
+        "teal-green": {
+          "dark": "#075E54",
+          "light": "#128C7E",
+        },
+        "light-green": "25D366",
+        "outgoing-chat-bubble": "#DCF8C6",
+        "chat-background": "#ECE5DD",
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar')({ nocompatible: true }),
+  ],
 }
