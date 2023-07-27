@@ -3,21 +3,33 @@
 import React from "react";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:8080");
+import RoomList from "@/components/RoomList/RoomList";
+import ChatRoom from "@/components/ChatRoom/ChatRoom";
+
+const socket = io("http://localhost:3001");
 
 export default function Home() {
-  const [showChat, setShowChat] = React.useState(false);
+  const [showChat, setShowChat] = React.useState(true);
+
+  const handleJoinRoom = () => {
+    socket.emit("joinRoom", "1");
+  }
+
+  if (!showChat) {
+    return (
+      <div>
+
+      </div>
+    )
+  }
   return (
-    <div>
-      {showChat ? (
-        <div>
-        </div> 
-      ) : (
-        <div className="w-[65dvw] h-[100dvh] border border-black bg-gray-300 ml-auto">
-          
-        </div>
-      )}
-      
+    <div className="flex flex-row h-[100dvh] border border-black ">
+      <div className="h-full">
+        <RoomList />
+      </div>
+      <div className="w-[68dvw] h-full bg-gray-300 ml-auto">
+        <ChatRoom />
+      </div>
     </div>
   )
 }
