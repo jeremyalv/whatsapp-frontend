@@ -9,19 +9,14 @@ import ChatRoom from "@/components/ChatRoom/ChatRoom";
 import { MessageType, Messages } from "@/data/Messages";
 import { RoomType } from "@/data/Rooms";
 
-const getRoomMessages = (room: RoomType, allMessages: MessageType[]): MessageType[] => {
-  const roomId = room._id;
-  return allMessages.filter((message) => message.room === roomId);
-};
-
-const socket = io("http://localhost:3001");
+// const socket = io("http://localhost:3001");
 
 export default function Home() {
   const [showChat, setShowChat] = React.useState<boolean>(true); // TODO set to false later on when prod
   const [selectedRoom, setSelectedRoom] = React.useState<RoomType>();
 
   const handleJoinRoom = (room: RoomType) => {
-    socket.emit("joinRoom", room._id);
+    // socket.emit("joinRoom", room._id);
     setSelectedRoom(room);
   }
 
@@ -32,6 +27,7 @@ export default function Home() {
       </div>
     )
   }
+
   return (
     <div className="h-full w-full flex flex-row bg-chat-background">
       <div className="w-[35dvw] h-full">

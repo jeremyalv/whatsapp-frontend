@@ -50,7 +50,7 @@ const Header = ({
       {/* Chat room menu */}
       <div className={`flex flex-row items-center gap-x-2 right-0`}>
         <PiVideoCamera className="text-xl text-slate-500" />
-        <PiPhone className="text-xl text-slate-500" />
+        <PiPhone className="tewxt-xl text-slate-500" />
           
         <RxDividerVertical className="text-xl text-slate-500" />
         <LiaSearchSolid className="text-xl text-slate-500" />

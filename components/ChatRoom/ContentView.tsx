@@ -1,11 +1,22 @@
 import React from 'react'
+import { MessageType } from '@/data/Messages'
 
-type Props = {}
+interface ContentViewProps {
+  roomMessages?: MessageType[]
+}
 
-const ContentView = (props: Props) => {
+const ContentView = ({
+  roomMessages
+}: ContentViewProps) => {
   return (
     <div className={`w-full h-full border border-red-500`}>
-      ContentView
+      {roomMessages?.map((message, key) => {
+        return (
+          <div key={key}>
+            {message.content}
+          </div>
+        );
+      })}
     </div>
   )
 }
