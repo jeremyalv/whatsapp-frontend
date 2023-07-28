@@ -2,6 +2,10 @@ import React from 'react'
 import { RoomType } from '@/data/Rooms'
 import { MessageType } from '@/data/Messages'
 
+import Header from './Header'
+import ContentView from './ContentView'
+import BottomMenu from './BottomMenu'
+
 interface ChatRoomProps {
   room?: RoomType,
   roomMessages?: MessageType[]
@@ -14,7 +18,7 @@ const ChatRoom = ({
   // If no room data are given, display template component
   if (!room) {
     return (
-      <div className='w-full h-full flex flex-row justify-center items-center'>
+      <div className='w-full h-full flex flex-col justify-center items-center'>
         No rooms selected. Start chatting now!
       </div>
     )
@@ -22,8 +26,10 @@ const ChatRoom = ({
 
   // Render chat room when room data is given
   return (
-    <div className='w-full h-full flex flex-row justify-center items-center'>
-      Room data is given! Under construction...      
+    <div className='flex flex-col w-full h-full justify-center items-center'>
+      <Header />
+      <ContentView />
+      <BottomMenu />   
     </div>
   )
 }
