@@ -31,7 +31,7 @@ const ChatRoom = ({
 
   // Render chat room when room data is given
   return (
-    <div className='flex flex-col w-full h-full justify-center items-center'>
+    <div className='flex flex-col w-full h-full justify-center items-center divide-y-2 divide-gray-300'>
       <Header room={room} />
       <ContentView roomMessages={roomMessages} />
       <BottomMenu />   

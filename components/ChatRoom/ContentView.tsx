@@ -1,5 +1,6 @@
 import React from 'react'
 import { MessageType } from '@/data/Messages'
+import ChatBubble from './ChatBubble'
 
 interface ContentViewProps {
   roomMessages?: MessageType[]
@@ -9,12 +10,13 @@ const ContentView = ({
   roomMessages
 }: ContentViewProps) => {
   return (
-    <div className={`w-full h-full border border-red-500`}>
+    <div className={`flex flex-col w-full h-full py-4 px-4 gap-y-4`}> 
       {roomMessages?.map((message, key) => {
         return (
-          <div key={key}>
-            {message.content}
-          </div>
+          <ChatBubble 
+            key={key} 
+            message={message} 
+            mine={key % 3 ? false : true} />
         );
       })}
     </div>

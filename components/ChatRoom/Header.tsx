@@ -24,7 +24,7 @@ const Header = ({
   room
 }: HeaderProps) => {
   return (
-    <div className={`w-full h-[12dvh] relative flex flex-row items-center px-4 border border-black`}>
+    <div className={`w-full h-[12dvh] relative flex flex-row items-center px-4`}>
       <div className='flex flex-row items-center grow'>
         {/* Room avatar */}
         <div className={`relative w-[56px] h-[56px] rounded-full overflow-hidden`}>
@@ -49,11 +49,12 @@ const Header = ({
 
       {/* Chat room menu */}
       <div className={`flex flex-row items-center gap-x-2 right-0`}>
-        <PiVideoCamera className="text-xl text-slate-500" />
-        <PiPhone className="tewxt-xl text-slate-500" />
+        <PiVideoCamera className="text-2xl text-slate-600" />
+        <div className='px-.5'></div>
+        <PiPhone className="text-2xl text-slate-600" />
           
-        <RxDividerVertical className="text-xl text-slate-500" />
-        <LiaSearchSolid className="text-xl text-slate-500" />
+        <RxDividerVertical className="text-2xl text-slate-600" />
+        <LiaSearchSolid className="text-2xl text-slate-600" />
       </div>
       
     </div>

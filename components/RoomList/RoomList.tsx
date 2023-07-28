@@ -17,7 +17,7 @@ const RoomList = ({
     <div className={`
       w-full
       py-3 px-4 h-screen overflow-y-scroll 
-      scrollbar scrollbar-thumb-gray-400 scrollbar-track-gray-200
+      scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-300
       scrollbar-w-[2px] scrollbar-rounded-full
     `}>
       {/* Navbar */}
@@ -43,7 +43,7 @@ const RoomList = ({
       
       {/* Room list */}
       <div className=''>
-        {Array.from({ length: 10 }).map((_, key) => {
+        {Array.from({ length: 15 }).map((_, key) => {
           return Rooms.map((room, key) => {
             return (
               <div key={key}>

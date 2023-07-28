@@ -4,8 +4,10 @@ type Props = {}
 
 const BottomMenu = (props: Props) => {
   return (
-    <div className={`w-full h-[10dvh] border border-blue-500`}>
-      BottomMenu
+    <div className={`w-full flex flex-row items-center h-[10dvh] py-2 px-4`}>
+      <div className='text-gray-500'>
+        Enter your message here...
+      </div>
     </div>
   )
 }
