@@ -1,7 +1,8 @@
 import React, { LegacyRef } from 'react'
-import { 
-  BiSearch
-} from 'react-icons/bi'
+
+import {
+  LiaSearchSolid
+} from "react-icons/lia";
 
 type Props = {
   type: string,
@@ -25,7 +26,7 @@ const SearchRoom = ({
         ref={ref}
       />
 
-      <BiSearch className="absolute text-xl text-slate-400 right-[16px]" />
+      <LiaSearchSolid className="absolute text-xl text-slate-400 right-[16px]" />
     </div>
   )
 }

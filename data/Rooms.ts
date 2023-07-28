@@ -4,6 +4,7 @@ export type RoomType = {
   name: string,
   users: string[],
   last_message?: string,
+  room_avatar_url?: string,
 }
 
 export const Rooms: RoomType[] = [
@@ -17,7 +18,8 @@ export const Rooms: RoomType[] = [
       "3",
       "4",
     ],
-    "last_message": "Hi team, it's so nice to meet you here! I wanted to announce that we're closing a $40M Series B with Sequoia next week."
+    "last_message": "Hi team, it's so nice to meet you here! I wanted to announce that we're closing a $40M Series B with Sequoia next week.",
+    "room_avatar_url": "",
   },
   {
     "_id": "2",
@@ -27,6 +29,7 @@ export const Rooms: RoomType[] = [
       "1",
       "2",
     ],
-    "last_message": "Did Avengers just close a $40M Series B with Sequoia? That's dope AF."
+    "last_message": "Did Avengers just close a $40M Series B with Sequoia? That's dope AF.",
+    "room_avatar_url": "",
   }
 ]
