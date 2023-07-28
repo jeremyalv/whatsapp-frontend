@@ -16,18 +16,18 @@ const RoomList = ({
   return (
     <div className={`
       w-full
-      py-3 px-4 h-screen overflow-y-scroll 
+      py-2 px-4 h-screen overflow-y-scroll 
       scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-300
       scrollbar-w-[2px] scrollbar-rounded-full
     `}>
       {/* Navbar */}
       <div className='py-1'></div>
-      <div className='flex flex-row justify-between items-center px-4'>
-        <h1 className='text-2xl font-semibold'>
+      <div className='flex flex-row justify-between items-center px-0'>
+        <h1 className='text-2xl font-semibold pl-4'>
           Chats
         </h1>
 
-        <div className='px-2'> 
+        <div className='rounded-lg px-4 py-3 hover:bg-gray-400 hover:bg-opacity-25 hover:cursor-pointer'> 
           <FiEdit className="text-slate-600 text-2xl stroke-[1.5]" />
         </div>
       </div>
