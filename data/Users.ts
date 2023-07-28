@@ -1,4 +1,14 @@
-export default Users = [
+export type UserType = {
+  _id: string;
+  email: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  avatar_url: string;
+  token: string;
+}
+
+export const Users: UserType[] = [
   {
     "_id": "1",
     "email": "jere.alva@email.com",

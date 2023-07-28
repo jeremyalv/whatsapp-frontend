@@ -1,14 +1,18 @@
 import React from 'react'
 import { FiEdit } from 'react-icons/fi'
-import { Rooms } from "@/data/Rooms";
+import { Rooms, RoomType } from "@/data/Rooms";
 
 import RoomRow from './RoomRow';
 import SearchRoom from './SearchRoom';
 
-type Props = {}
+interface RoomListProps {
+  joinRoom: (room: RoomType) => void
+}
 
 // Chat Sidebar
-const RoomList = (props: Props) => {
+const RoomList = ({
+  joinRoom
+}: RoomListProps) => {
   return (
     <div className={`
       w-full
@@ -43,7 +47,7 @@ const RoomList = (props: Props) => {
           return Rooms.map((room, key) => {
             return (
               <div key={key}>
-                <RoomRow room={room} />
+                <RoomRow room={room} joinRoom={joinRoom} />
               </div>
             )
           })

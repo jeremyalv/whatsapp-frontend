@@ -2,15 +2,20 @@ import React from 'react'
 import Image from 'next/image'
 import { RoomType } from '@/data/Rooms'
 
-type Props = {
-  room: RoomType
+interface RoomRowProps {
+  room: RoomType,
+  joinRoom: (room: RoomType) => void
 }
 
 const RoomRow = ({
-  room
-}: Props) => {
+  room,
+  joinRoom
+}: RoomRowProps) => {
   return (
-    <div className={`w-full flex flex-row my-1 py-3 px-4 rounded-lg bg-opacity-50 hover:bg-gray-300 hover:cursor-pointer hover:bg-opacity-[0.45]`}>
+    <div 
+      onClick={() => joinRoom(room)}
+      className={`w-full flex flex-row my-1 py-3 px-4 rounded-lg bg-opacity-50 hover:bg-gray-300 hover:cursor-pointer hover:bg-opacity-[0.45]`}
+    >
       <div className='relative rounded-full overflow-hidden w-[60px] h-[60px]'>
         <Image
           src="/images/test.jpg"

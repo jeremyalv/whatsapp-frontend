@@ -6,29 +6,39 @@ import { io } from "socket.io-client";
 import RoomList from "@/components/RoomList/RoomList";
 import ChatRoom from "@/components/ChatRoom/ChatRoom";
 
+import { MessageType, Messages } from "@/data/Messages";
+import { RoomType } from "@/data/Rooms";
+
+const getRoomMessages = (room: RoomType, allMessages: MessageType[]): MessageType[] => {
+  const roomId = room._id;
+  return allMessages.filter((message) => message.room === roomId);
+};
+
 const socket = io("http://localhost:3001");
 
 export default function Home() {
-  const [showChat, setShowChat] = React.useState(true);
+  const [showChat, setShowChat] = React.useState<boolean>(true); // TODO set to false later on when prod
+  const [selectedRoom, setSelectedRoom] = React.useState<RoomType>();
 
-  const handleJoinRoom = () => {
-    socket.emit("joinRoom", "1");
+  const handleJoinRoom = (room: RoomType) => {
+    socket.emit("joinRoom", room._id);
+    setSelectedRoom(room);
   }
 
   if (!showChat) {
     return (
       <div>
-
+        AuthPage
       </div>
     )
   }
   return (
     <div className="h-full w-full flex flex-row bg-chat-background">
       <div className="w-[35dvw] h-full">
-        <RoomList />
+        <RoomList joinRoom={handleJoinRoom} />
       </div>
       <div className="w-full h-full ml-auto right-0">
-        <ChatRoom />
+        <ChatRoom room={selectedRoom} />
       </div>
     </div>
   )
