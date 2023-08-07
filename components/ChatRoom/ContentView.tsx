@@ -1,13 +1,14 @@
 import React from 'react'
 import { MessageType } from '@/data/Messages'
 import ChatBubble from './ChatBubble'
+import { RoomType } from '@/data/Rooms'
 
 interface ContentViewProps {
-  roomMessages?: MessageType[]
+  roomMessages?: MessageType[];
 }
 
 const ContentView = ({
-  roomMessages
+  roomMessages,
 }: ContentViewProps) => {
   return (
     <div className={`flex flex-col w-full h-full py-4 px-4 gap-y-4`}> 

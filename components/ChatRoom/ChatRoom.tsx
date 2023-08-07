@@ -7,7 +7,8 @@ import ContentView from './ContentView'
 import BottomMenu from './BottomMenu'
 
 interface ChatRoomProps {
-  room?: RoomType,
+  room?: RoomType;
+  handleSentMessage: (room: RoomType, message: string) => void;
 }
 
 const getRoomMessages = (room: RoomType, allMessages: MessageType[]): MessageType[] => {
@@ -17,7 +18,8 @@ const getRoomMessages = (room: RoomType, allMessages: MessageType[]): MessageTyp
 
 const ChatRoom = ({
   room,
-}: ChatRoomProps) => {
+  handleSentMessage
+}: ChatRoomProps) => {  
   // If no room data are given, display template component
   if (!room) {
     return (
@@ -34,7 +36,7 @@ const ChatRoom = ({
     <div className='flex flex-col w-full h-full justify-center items-center divide-y-2 divide-gray-300'>
       <Header room={room} />
       <ContentView roomMessages={roomMessages} />
-      <BottomMenu />   
+      <BottomMenu room={room} handleSentMessage={handleSentMessage} />   
     </div>
   )
 }

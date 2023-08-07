@@ -10,9 +10,17 @@ import {
   AiOutlinePaperClip
 } from 'react-icons/ai'
 
-type Props = {}
+import { RoomType } from '@/data/Rooms';
 
-const BottomMenu = (props: Props) => {
+interface BottomMenuProps {
+  room: RoomType;
+  handleSentMessage: (room: RoomType, message: string) => void;
+}
+
+const BottomMenu = ({
+  room,
+  handleSentMessage
+}: BottomMenuProps) => {
   const [message, setMessage] = React.useState<string>('');
 
   return (
@@ -34,7 +42,12 @@ const BottomMenu = (props: Props) => {
       </div>
 
       <div className='w-[60px] flex flex-row justify-center items-center mx-2'>
-        <div className='rounded-lg px-4 py-3 hover:bg-gray-400 hover:bg-opacity-25 hover:cursor-pointer'>
+        <div 
+          className='rounded-lg px-4 py-3 hover:bg-gray-400 hover:bg-opacity-25 hover:cursor-pointer'
+          onClick={() => {
+            message !== "" && handleSentMessage(room, message);
+          }}
+        >
           <VscSend className={`text-2xl ${message === "" ? "text-gray-500": "text-black"}`} />
         </div>
       </div>

@@ -13,7 +13,9 @@ const RoomRow = ({
 }: RoomRowProps) => {
   return (
     <div 
-      onClick={() => joinRoom(room)}
+      onClick={() => {
+        joinRoom(room);
+      }}
       className={`w-full flex flex-row my-1 py-3 px-4 rounded-lg bg-opacity-50 hover:bg-gray-300 hover:cursor-pointer hover:bg-opacity-[0.45]`}
     >
       <div className='relative rounded-full overflow-hidden w-[60px] h-[60px]'>
