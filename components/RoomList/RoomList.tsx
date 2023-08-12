@@ -17,8 +17,8 @@ const RoomList = ({
     <div className={`
       w-full
       py-2 px-4 h-screen overflow-y-scroll 
-      scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-300
-      scrollbar-w-[2px] scrollbar-rounded-full
+      scrollbar scrollbar-thumb-gray-400 scrollbar-track-gray-300
+      scrollbar-w-[4px] scrollbar-rounded-full
     `}>
       {/* Navbar */}
       <div className='py-1'></div>

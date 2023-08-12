@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import React from "react";
 import { Socket, io } from "socket.io-client";
 
@@ -9,7 +10,7 @@ import ChatRoom from "@/components/ChatRoom/ChatRoom";
 import { MessageType, Messages } from "@/data/Messages";
 import { RoomType } from "@/data/Rooms";
 
-const socket = io("http://localhost:8080");
+const socket = io("http://localhost:3010");
 
 export default function Home() {
   const [showChat, setShowChat] = React.useState<boolean>(true); // TODO set to false later on when prod
@@ -20,10 +21,16 @@ export default function Home() {
     setSelectedRoom(room);
   }
 
-  const handleSentMesage = (room: RoomType, message: string) => {
+  // @Jere TODO room arg ga kepake karena lgsg cek dari params.
+  const handleSentMesage = async (room: RoomType, content: string) => {
+    await axios.post(`http://localhost:3010/api/room/64d7356a565cb5dc4fa42a22`, {
+      "content": content,
+      "user": "64d734debf25a464aa5010fc" // TODO hardcoded for now.
+    });
+    
     socket.emit("send_message", {
       room,
-      message
+      message: content
     });
   }
 
@@ -50,7 +57,7 @@ export default function Home() {
         <RoomList joinRoom={handleJoinRoom} />
       </div>
       <div className="w-full h-full ml-auto right-0">
-        <ChatRoom room={selectedRoom} handleSentMessage={handleSentMesage} />
+        <ChatRoom room={selectedRoom} handleSentMessage={handleSentMesage} socket={socket} />
       </div>
     </div>
   )

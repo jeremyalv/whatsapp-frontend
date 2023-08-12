@@ -11,7 +11,10 @@ const ContentView = ({
   roomMessages,
 }: ContentViewProps) => {
   return (
-    <div className={`flex flex-col w-full h-full py-4 px-4 gap-y-4`}> 
+    <div className={`flex flex-col w-full h-full max-h-[80dvh] py-4 px-4 gap-y-4
+    overflow-y-scroll scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-300
+    scrollbar-w-[6px] scrollbar-rounded-full
+    `}> 
       {roomMessages?.map((message, key) => {
         return (
           <ChatBubble 
