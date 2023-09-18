@@ -1,21 +1,26 @@
 import { MessageType } from '@/data/Messages'
-import React from 'react'
+import React, { RefObject } from 'react'
 
 interface ChatBubbleProps {
   message: MessageType;
+  bottomRef?: RefObject<HTMLDivElement>;
   mine?: boolean;
 }
 
 const ChatBubble = ({
   message,
-  mine
+  mine,
+  bottomRef
 }: ChatBubbleProps) => {
   const hours = new Date(message.created_at).getHours().toString().padStart(2, '0');
   const minutes = new Date(message.created_at).getMinutes().toString().padStart(2, '0');
   const chatTimestamp: string =  hours + ":" + minutes;
   
   return (
-    <div className={`relative flex flex-col ${mine ? "place-self-end" : "place-self-start"} group`}>
+    <div 
+      className={`relative flex flex-col ${mine ? "place-self-end" : "place-self-start"} group`}
+      ref={bottomRef}
+    >
       <div className={`flex flex-col rounded-xl px-4 py-3 text-white 
       ${mine
         ? "bg-teal-green-light rounded-tr-none" 
@@ -31,8 +36,8 @@ const ChatBubble = ({
       <div className={`flex flex-row w-full ${mine ? "justify-end" : "justify-start"}`}>
         {chatTimestamp}
       </div>
-    </div>
-  )
+  </div>
+  );
 }
 
 export default ChatBubble

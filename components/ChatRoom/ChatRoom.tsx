@@ -1,9 +1,9 @@
 "use client";
 
 import axios from 'axios';
-import React, { useState } from 'react'
-import { RoomType } from '@/data/Rooms'
-import { Messages, MessageType } from '@/data/Messages'
+import React from 'react';
+import { RoomType } from '@/data/Rooms';
+import { Messages, MessageType } from '@/data/Messages';
 
 import Header from './Header'
 import ContentView from './ContentView'
@@ -34,6 +34,7 @@ const ChatRoom = ({
   room,
   handleSentMessage
 }: ChatRoomProps) => {  
+  const bottomOfRoomRef = React.useRef<HTMLDivElement>(null);
   const [messages, setMessages] = React.useState<MessageType[]>([]);
 
   const fetchRoomMessages = React.useCallback(async () => {
@@ -44,28 +45,42 @@ const ChatRoom = ({
     }
   }, [room]);
 
+  const scrollToBottom = React.useCallback(() => {
+    if (bottomOfRoomRef) {
+      bottomOfRoomRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }
+  }, []);
+
   React.useEffect(() => {
     console.log("Socket/room info had changed!");
 
-    // const fetchData = async () => {
-    //   if (room) {
-    //     const updatedMessages = await getRoomMessages(room, Messages);
-    //     setMessages(updatedMessages);
-    //     console.log("Room messages:", updatedMessages);
-    //   }
-    // };
-
     // Fetch messages data
     fetchRoomMessages()
+      .then(() => {
+        if (room) {
+          scrollToBottom();
+          console.log("first time scroll to bottom");
+        }
+      })
       .catch(console.error);
 
     // When another user sends a message to the current room
     socket.on("receive_message", (message: string) => {
       console.log("ChatRoom component received message from server!");
       
-      // Refetch getRoomMessages
-      fetchRoomMessages().catch(console.error);
-    })
+      // Fetch messages data
+        fetchRoomMessages()
+        .then(() => {
+          if (room) {
+            scrollToBottom();
+            console.log("refresh - scroll to bottom");
+          }
+        })
+        .catch(console.error);
+        })
   }, [socket, room, fetchRoomMessages]);
 
 
@@ -82,8 +97,9 @@ const ChatRoom = ({
   return (
     <div className='flex flex-col w-full h-[100dvh] justify-center items-center divide-y-2 divide-gray-300'>
       <Header room={room} />
-      <ContentView roomMessages={messages} />
-      <BottomMenu room={room} handleSentMessage={handleSentMessage} />   
+      {/* TODO - add tab above chat input field to scroll to bottom like line */}
+      <ContentView bottomRef={bottomOfRoomRef}  roomMessages={messages} />
+      <BottomMenu room={room} handleSentMessage={handleSentMessage} scrollToBottom={scrollToBottom} />   
     </div>
   )
 }

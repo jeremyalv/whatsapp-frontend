@@ -15,11 +15,13 @@ import { RoomType } from '@/data/Rooms';
 interface BottomMenuProps {
   room: RoomType;
   handleSentMessage: (room: RoomType, message: string) => void;
+  scrollToBottom: () => void;
 }
 
 const BottomMenu = ({
   room,
-  handleSentMessage
+  handleSentMessage,
+  scrollToBottom,
 }: BottomMenuProps) => {
   const [message, setMessage] = React.useState<string>('');
 
@@ -31,6 +33,7 @@ const BottomMenu = ({
         if (event.key == "Enter" && message !== "") {
           handleSentMessage(room, message);
           setMessage("");
+          scrollToBottom();
         }
       }}
     >
@@ -56,6 +59,7 @@ const BottomMenu = ({
           onClick={() => {
             message !== "" && handleSentMessage(room, message);
             setMessage("");
+            scrollToBottom();
           }}
         >
           <VscSend className={`text-2xl ${message === "" ? "text-gray-500": "text-black"}`} />

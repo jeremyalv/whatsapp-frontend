@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { RefObject } from 'react'
 import { MessageType } from '@/data/Messages'
 import ChatBubble from './ChatBubble'
 import { RoomType } from '@/data/Rooms'
 
 interface ContentViewProps {
   roomMessages?: MessageType[];
+  bottomRef?: RefObject<HTMLDivElement>;
 }
 
 const ContentView = ({
   roomMessages,
+  bottomRef,
 }: ContentViewProps) => {
   return (
     <div className={`flex flex-col w-full h-full max-h-[80dvh] py-4 px-4 gap-y-4
@@ -20,9 +22,13 @@ const ContentView = ({
           <ChatBubble 
             key={key} 
             message={message} 
-            mine={key % 3 ? false : true} />
+            mine={key % 3 ? false : true} 
+          />
         );
       })}
+
+    {/* TODO - Newest chat bubble is not scrolled through when adding new msg */}
+    <div className="pt-2" ref={bottomRef}></div>
     </div>
   )
 }
