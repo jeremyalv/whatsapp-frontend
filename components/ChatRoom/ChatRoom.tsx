@@ -18,8 +18,9 @@ interface ChatRoomProps {
 
 const getRoomMessages = async (room: RoomType, allMessages: MessageType[]): Promise<MessageType[]> => {
   const roomId = room._id;
+  console.log("getRoomMessages for #", roomId);
+  
   const res = await axios.get(`http://localhost:3010/api/room/64d7356a565cb5dc4fa42a22`);
-  await console.log(res.data.room_messages);
   const dbMessageJson = await res.data.room_messages;
 
   // const result = allMessages.filter((message) => message.room === roomId).concat(dbMessageJson);
@@ -35,19 +36,37 @@ const ChatRoom = ({
 }: ChatRoomProps) => {  
   const [messages, setMessages] = React.useState<MessageType[]>([]);
 
-  React.useEffect(() => {
-    console.log("Socket info has changed!");
-    const fetchData = async () => {
-      if (room) {
-        const updatedMessages = await getRoomMessages(room, Messages);
-        setMessages(updatedMessages);
-        console.log("messages:", updatedMessages);
-      }
-    };
+  const fetchRoomMessages = React.useCallback(async () => {
+    if (room) {
+      const updatedMessages = await getRoomMessages(room, Messages);
+      setMessages(updatedMessages);
+      console.log("Room messages:", updatedMessages);
+    }
+  }, [room]);
 
-    fetchData()
+  React.useEffect(() => {
+    console.log("Socket/room info had changed!");
+
+    // const fetchData = async () => {
+    //   if (room) {
+    //     const updatedMessages = await getRoomMessages(room, Messages);
+    //     setMessages(updatedMessages);
+    //     console.log("Room messages:", updatedMessages);
+    //   }
+    // };
+
+    // Fetch messages data
+    fetchRoomMessages()
       .catch(console.error);
-  }, [socket]);
+
+    // When another user sends a message to the current room
+    socket.on("receive_message", (message: string) => {
+      console.log("ChatRoom component received message from server!");
+      
+      // Refetch getRoomMessages
+      fetchRoomMessages().catch(console.error);
+    })
+  }, [socket, room, fetchRoomMessages]);
 
 
   // If no room data are given, display template component

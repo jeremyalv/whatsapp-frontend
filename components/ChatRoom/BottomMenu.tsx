@@ -24,7 +24,16 @@ const BottomMenu = ({
   const [message, setMessage] = React.useState<string>('');
 
   return (
-    <div className={`w-full flex flex-row justify-between items-center h-[10dvh] py-2 px-2`}>
+    <div 
+      className={`w-full flex flex-row justify-between items-center h-[10dvh] py-2 px-2`}
+      onKeyDown={(event) => {
+        // Handles enter key for sending messages
+        if (event.key == "Enter" && message !== "") {
+          handleSentMessage(room, message);
+          setMessage("");
+        }
+      }}
+    >
       <div className='w-[60px] flex flex-row justify-center items-center mx-2'>
         <div className='rounded-lg px-4 py-3 hover:bg-gray-400 hover:bg-opacity-25 hover:cursor-pointer group'>
           <AiOutlinePaperClip className="text-2xl text-gray-500 group-hover:text-black" />
@@ -46,6 +55,7 @@ const BottomMenu = ({
           className='rounded-lg px-4 py-3 hover:bg-gray-400 hover:bg-opacity-25 hover:cursor-pointer'
           onClick={() => {
             message !== "" && handleSentMessage(room, message);
+            setMessage("");
           }}
         >
           <VscSend className={`text-2xl ${message === "" ? "text-gray-500": "text-black"}`} />

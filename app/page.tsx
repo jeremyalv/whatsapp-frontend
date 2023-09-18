@@ -13,7 +13,7 @@ import { RoomType } from "@/data/Rooms";
 const socket = io("http://localhost:3010");
 
 export default function Home() {
-  const [showChat, setShowChat] = React.useState<boolean>(true); // TODO set to false later on when prod
+  const [showChat, setShowChat] = React.useState<boolean>(true); // TODO set to false later on when prod for auth
   const [selectedRoom, setSelectedRoom] = React.useState<RoomType>();
 
   const handleJoinRoom = (room: RoomType) => {
@@ -25,7 +25,7 @@ export default function Home() {
   const handleSentMesage = async (room: RoomType, content: string) => {
     await axios.post(`http://localhost:3010/api/room/64d7356a565cb5dc4fa42a22`, {
       "content": content,
-      "user": "64d734debf25a464aa5010fc" // TODO hardcoded for now.
+      "user": "64d734debf25a464aa5010fc" // TODO, hardcoded for now.
     });
     
     socket.emit("send_message", {
@@ -41,7 +41,12 @@ export default function Home() {
     socket.on("user_joined_room", () => {
       console.log("A user joined the room.");
     });
-  }, [socket]);
+
+    // // When another user sends a message to the current room
+    // socket.on("receive_message", (message: string) => {
+    //   console.log("receive message:", message);
+    // })
+  }, []);
 
   if (!showChat) {
     return (
@@ -57,7 +62,7 @@ export default function Home() {
         <RoomList joinRoom={handleJoinRoom} />
       </div>
       <div className="w-full h-full ml-auto right-0">
-        <ChatRoom room={selectedRoom} handleSentMessage={handleSentMesage} socket={socket} />
+        <ChatRoom socket={socket} room={selectedRoom} handleSentMessage={handleSentMesage} />
       </div>
     </div>
   )
