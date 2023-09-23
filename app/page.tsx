@@ -6,6 +6,7 @@ import { Socket, io } from "socket.io-client";
 
 import RoomList from "@/components/RoomList/RoomList";
 import ChatRoom from "@/components/ChatRoom/ChatRoom";
+import SideMenu from "@/components/SideMenu/SideMenu";
 
 import { MessageType, Messages } from "@/data/Messages";
 import { RoomType } from "@/data/Rooms";
@@ -57,13 +58,16 @@ export default function Home() {
   }
 
   return (
-    <div className="h-full w-full flex flex-row bg-chat-background">
-      <div className="w-[35dvw] h-full">
-        <RoomList joinRoom={handleJoinRoom} />
+    <>
+      <SideMenu />
+      <div className="h-full w-full flex flex-row bg-chat-background">
+        <div className="w-[35dvw] h-full">
+          <RoomList joinRoom={handleJoinRoom} />
+        </div>
+        <div className="w-full h-full ml-auto right-0">
+          <ChatRoom socket={socket} room={selectedRoom} handleSentMessage={handleSentMesage} />
+        </div>
       </div>
-      <div className="w-full h-full ml-auto right-0">
-        <ChatRoom socket={socket} room={selectedRoom} handleSentMessage={handleSentMesage} />
-      </div>
-    </div>
+    </>
   )
 }

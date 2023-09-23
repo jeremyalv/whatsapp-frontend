@@ -13,7 +13,7 @@ const ContentView = ({
   bottomRef,
 }: ContentViewProps) => {
   return (
-    <div className={`flex flex-col w-full h-full max-h-[80dvh] py-4 px-4 gap-y-4
+    <div className={`flex flex-col w-full h-full max-h-[80dvh] pt-4 px-4 gap-y-4
     overflow-y-scroll scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-300
     scrollbar-w-[6px] scrollbar-rounded-full
     `}> 
@@ -28,7 +28,8 @@ const ContentView = ({
       })}
 
     {/* TODO - Newest chat bubble is not scrolled through when adding new msg */}
-    <div className="pt-2" ref={bottomRef}></div>
+    {/* https://reacthustle.com/blog/react-auto-scroll-to-bottom-tutorial */}
+      <div className='mt-4' ref={bottomRef}></div>
     </div>
   )
 }

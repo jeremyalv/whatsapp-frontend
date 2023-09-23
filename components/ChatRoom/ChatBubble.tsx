@@ -25,7 +25,7 @@ const ChatBubble = ({
       ${mine
         ? "bg-teal-green-light rounded-tr-none" 
         : "bg-neutral-600 rounded-tl-none"}
-        group-hover:cursor-pointer group-hover:bg-opacity-[0.75] group-hover:duration-100
+        group-hover:cursor-pointer group-hover:bg-opacity-[0.85] group-hover:duration-100
         `}>
         <div>
           {message.content}

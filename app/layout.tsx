@@ -12,7 +12,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'WhatsApp Clone',
-  description: 'Messaging, Simplified.',
+  description: 'Messaging, simplified',
 }
 
 export default function RootLayout({
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} flex flex-row top-0 left-0 right-0 bottom-0 overflow-hidden w-[100dvw] h-[100dvh]`}>
-        <SideMenu />
+        {/* <SideMenu /> */}
         {children}
       </body>
     </html>

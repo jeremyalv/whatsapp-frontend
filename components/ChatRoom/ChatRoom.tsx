@@ -95,8 +95,9 @@ const ChatRoom = ({
 
   // Render chat room when room data is given
   return (
-    <div className='flex flex-col w-full h-[100dvh] justify-center items-center divide-y-2 divide-gray-300'>
+    <div className='flex flex-col w-full h-[100dvh] justify-center items-center'>
       <Header room={room} />
+      <div className='w-full h-[2px] bg-gray-500 opacity-50'></div>
       {/* TODO - add tab above chat input field to scroll to bottom like line */}
       <ContentView bottomRef={bottomOfRoomRef}  roomMessages={messages} />
       <BottomMenu room={room} handleSentMessage={handleSentMessage} scrollToBottom={scrollToBottom} />   
