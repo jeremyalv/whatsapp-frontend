@@ -1,16 +1,18 @@
 import React from 'react'
 import { FiEdit } from 'react-icons/fi'
-import { Rooms, RoomType } from "@/data/Rooms";
+import { RoomType } from "@/data/Rooms";
 
 import RoomRow from './RoomRow';
 import SearchRoom from './SearchRoom';
 
 interface RoomListProps {
+  rooms: RoomType[];
   joinRoom: (room: RoomType) => void
 }
 
 // Chat Sidebar
 const RoomList = ({
+  rooms,
   joinRoom
 }: RoomListProps) => {
   return (
@@ -43,15 +45,15 @@ const RoomList = ({
       
       {/* Room list */}
       <div className=''>
-        {Array.from({ length: 15 }).map((_, key) => {
-          return Rooms.map((room, key) => {
+        {
+          rooms?.map((room, key) => {
             return (
               <div key={key}>
                 <RoomRow room={room} joinRoom={joinRoom} />
               </div>
             )
           })
-        })}
+        }
       </div>
       
     </div>
