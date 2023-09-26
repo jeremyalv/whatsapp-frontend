@@ -7,6 +7,7 @@ import React from "react";
 import { Socket, io } from "socket.io-client";
 
 import RoomList from "@/components/RoomList/RoomList";
+import RoomListHeader from "@/components/RoomList/RoomListHeader";
 import ChatRoom from "@/components/ChatRoom/ChatRoom";
 import SideMenu from "@/components/SideMenu/SideMenu";
 
@@ -16,14 +17,20 @@ import { RoomType } from "@/data/Rooms";
 const socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
 
 export default function Home() {
-  const [showChat, setShowChat] = React.useState<boolean>(true); // TODO set to false later on when prod for auth
+  // TODO set to false later on when prod for auth
+  const [showChat, setShowChat] = React.useState<boolean>(true); 
   const [selectedRoom, setSelectedRoom] = React.useState<RoomType>();
   const [roomsData, setRoomsData] = React.useState<RoomType[]>([]);
+  const [isWriteMessageOpen, setIsWriteMessageOpen] = React.useState<boolean>(true);
 
   const handleJoinRoom = (room: RoomType) => {
     socket.emit("join_room", room);
     setSelectedRoom(room);
   }
+
+  const handleWriteMessageOpen = () => {
+    setIsWriteMessageOpen(!isWriteMessageOpen);
+  };
 
   // @Jere TODO room arg ga kepake karena lgsg cek dari params.
   const handleSentMesage = async (room: RoomType, content: string) => {
@@ -43,7 +50,7 @@ export default function Home() {
 
   // Update rooms data
   React.useEffect(() => {
-    // Get room data
+    // Get room data in 3 second intervals
     const interval = setInterval(async () => {
       console.log("refetch room data");
       const getRoomData = async () => {
@@ -91,8 +98,31 @@ export default function Home() {
     <>
       <SideMenu />
       <div className="h-full w-full flex flex-row bg-chat-background">
-        <div className="w-[35dvw] h-full">
-          <RoomList rooms={roomsData} joinRoom={handleJoinRoom} />
+        <div className="relative flex flex-col w-[35dvw] h-full">
+          {isWriteMessageOpen 
+          ? (
+              <div
+                className={`
+                absolute
+                top-[8dvh]
+                -right-[14.75dvw]
+                z-10
+                `}  
+              >
+                <RoomListHeader 
+                  height={600}
+                  width={320}
+                  isWriteMessageOpen={isWriteMessageOpen} 
+                />
+              </div> 
+            )
+          : null
+          }
+          <RoomList 
+            rooms={roomsData} 
+            joinRoom={handleJoinRoom} 
+            handleWriteMessageOpen={handleWriteMessageOpen} 
+          />
         </div>
         <div className="w-full h-full ml-auto right-0">
           <ChatRoom socket={socket} room={selectedRoom} handleSentMessage={handleSentMesage} />

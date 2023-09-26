@@ -7,14 +7,16 @@ import SearchRoom from './SearchRoom';
 
 interface RoomListProps {
   rooms: RoomType[];
-  joinRoom: (room: RoomType) => void
+  joinRoom: (room: RoomType) => void;
+  handleWriteMessageOpen: () => void;
 }
 
 // Chat Sidebar
 const RoomList = ({
   rooms,
-  joinRoom
-}: RoomListProps) => {
+  joinRoom,
+  handleWriteMessageOpen,
+}: RoomListProps) => {  
   return (
     <div className={`
       w-full
@@ -24,13 +26,19 @@ const RoomList = ({
     `}>
       {/* Navbar */}
       <div className='py-1'></div>
-      <div className='flex flex-row justify-between items-center px-0'>
+      <div className='relative flex flex-row justify-between items-center px-0'>
         <h1 className='text-2xl font-semibold pl-4'>
           Chats
         </h1>
 
-        <div className='rounded-lg px-4 py-3 hover:bg-gray-400 hover:bg-opacity-25 hover:cursor-pointer'> 
-          <FiEdit className="text-slate-600 text-2xl stroke-[1.5]" />
+        {/* Write Button */}
+        <div 
+          className='rounded-lg px-4 py-3 hover:bg-gray-400 hover:bg-opacity-25 hover:cursor-pointer'
+          onClick={() => handleWriteMessageOpen()}
+        > 
+          <FiEdit 
+            className="text-slate-600 text-2xl stroke-[1.5]" 
+          />
         </div>
       </div>
 

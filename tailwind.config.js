@@ -34,6 +34,7 @@ module.exports = {
         "light-green": "25D366",
         "outgoing-chat-bubble": "#DCF8C6",
         "chat-background": "#ECE5DD",
+        "dark-chat-background": "#C3AD94",
       }
     },
   },
