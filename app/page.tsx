@@ -7,7 +7,7 @@ import React from "react";
 import { Socket, io } from "socket.io-client";
 
 import RoomList from "@/components/RoomList/RoomList";
-import RoomListHeader from "@/components/RoomList/RoomListHeader";
+import WriteNewChat from "@/components/RoomList/WriteNewChat";
 import ChatRoom from "@/components/ChatRoom/ChatRoom";
 import SideMenu from "@/components/SideMenu/SideMenu";
 
@@ -109,9 +109,7 @@ export default function Home() {
                 z-10
                 `}  
               >
-                <RoomListHeader 
-                  height={600}
-                  width={320}
+                <WriteNewChat
                   isWriteMessageOpen={isWriteMessageOpen} 
                 />
               </div> 
