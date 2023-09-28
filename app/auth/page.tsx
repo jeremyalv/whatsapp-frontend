@@ -44,7 +44,7 @@ const AuthPage = (props: Props) => {
     .catch((error) => {
       // alert("An error occured. Please ensure the inputs are correct")
       setFormError(true);
-      console.log("error:", error);
+      // console.log("error:", error);
     });
 
     console.debug(phoneNumber, password);
@@ -69,6 +69,9 @@ const AuthPage = (props: Props) => {
 
           {/* <!-- Right column container with form --> */}
           <div className="relative md:w-8/12 lg:ml-6 lg:w-5/12">
+            <div className="text-3xl text-black font-semibold -translate-y-[45px]">
+              Log In
+            </div>
             {formError && (
               <div className="text-red-500 font-semibold text-md -translate-y-[40px]">
                 An error has occurred, please ensure inputs are correct
@@ -82,13 +85,12 @@ const AuthPage = (props: Props) => {
                   value={phoneNumber}
                   onChange={(phoneNumber) => {
                     setPhoneNumber(phoneNumber);
-                    console.log(phoneNumber);
+                    // console.log(phoneNumber);
                   }}
                   enableSearch={true}
                   masks={{
                     id: "... .... ...."
                   }}
-                  
 
                   containerStyle={{
                     display: "block",
