@@ -12,9 +12,11 @@ import "react-phone-input-2/lib/style.css";
 type Props = {}
 
 const AuthPage = (props: Props) => {
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("+6281280009000");
+  const [password, setPassword] = useState<string>("password");
+  const [formError, setFormError] = useState<boolean>(false);
+
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   const handleLogin = async () => {
@@ -22,9 +24,17 @@ const AuthPage = (props: Props) => {
       alert("Warning: Missing login info. Please fill the login fields correctly.");
     };
     
-    await axios.post(`${process.env.SERVER_URL}/login`, {
+    await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/login`, {
       "phone_number": phoneNumber,
       "password": password,
+    })
+    .then(() => {
+      setFormError(false);
+    })
+    .catch((error) => {
+      // alert("An error occured. Please ensure the inputs are correct")
+      setFormError(true);
+      console.log("error:", error);
     });
 
     console.debug(phoneNumber, password);
@@ -48,9 +58,13 @@ const AuthPage = (props: Props) => {
           </div>
 
           {/* <!-- Right column container with form --> */}
-          <div className="md:w-8/12 lg:ml-6 lg:w-5/12">
+          <div className="relative md:w-8/12 lg:ml-6 lg:w-5/12">
+            {formError && (
+              <div className="text-red-500 font-semibold text-md -translate-y-[40px]">
+                An error has occurred, please ensure inputs are correct
+              </div>
+            )}
             <form>
-
               <div className="relative mb-6" data-te-input-wrapper-init>
                 {/* <!-- Phone Number input --> */}
                 <PhoneInput 
@@ -61,6 +75,10 @@ const AuthPage = (props: Props) => {
                     console.log(phoneNumber);
                   }}
                   enableSearch={true}
+                  masks={{
+                    id: "... .... ...."
+                  }}
+                  
 
                   containerStyle={{
                     display: "block",
@@ -141,7 +159,10 @@ const AuthPage = (props: Props) => {
 
               {/* <!-- Submit button --> */}
               <button
-                onClick={() => handleLogin()}
+                onClick={(event) => {
+                  handleLogin();
+                  event.preventDefault();
+                }}
                 type="submit"
                 className="inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-gray-200 transition duration-150 ease-in-out bg-primary-600 shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
                 data-te-ripple-init
