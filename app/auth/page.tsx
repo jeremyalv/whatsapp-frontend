@@ -5,13 +5,15 @@ import {} from "dotenv/config";
 import React, { useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
 type Props = {}
 
 const AuthPage = (props: Props) => {
+  const router = useRouter();
+  
   const [phoneNumber, setPhoneNumber] = useState<string>("+6281280009000");
   const [password, setPassword] = useState<string>("password");
   const [formError, setFormError] = useState<boolean>(false);
@@ -28,8 +30,16 @@ const AuthPage = (props: Props) => {
       "phone_number": phoneNumber,
       "password": password,
     })
-    .then(() => {
+    .then((res) => {
+      // Use res.data.data to get returned User object
+      // console.log(res.data.data);
       setFormError(false);
+      
+      // Set page cookie
+      document.cookie = `token=${res.data.data.token}`;
+
+      // Redirect to home URL
+      router.replace(`/`);
     })
     .catch((error) => {
       // alert("An error occured. Please ensure the inputs are correct")

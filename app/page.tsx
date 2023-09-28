@@ -13,22 +13,32 @@ import SideMenu from "@/components/SideMenu/SideMenu";
 
 import { MessageType, Messages } from "@/data/Messages";
 import { RoomType } from "@/data/Rooms";
+import { headers } from "next/dist/client/components/headers";
+import { config } from "dotenv";
+import { useRouter } from "next/navigation";
 
 const socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
 
 export default function Home() {
+  const router = useRouter();
+
   // TODO set to false later on when prod for auth
   const [showChat, setShowChat] = React.useState<boolean>(true); 
   const [selectedRoom, setSelectedRoom] = React.useState<RoomType>();
   const [roomsData, setRoomsData] = React.useState<RoomType[]>([]);
   const [isWriteMessageOpen, setIsWriteMessageOpen] = React.useState<boolean>(false);
 
-  const handleJoinRoom = (room: RoomType) => {
+  const getCookie = (key: string) => {
+    var b = document.cookie.match("(^|;)\\s*" + key + "\\s*=\\s*([^;]+)");
+    return b ? b.pop() : "";
+  }
+
+  const handleJoinRoom = (room: RoomType): void => {
     socket.emit("join_room", room);
     setSelectedRoom(room);
   }
 
-  const handleWriteMessageOpen = () => {
+  const handleWriteMessageOpen = (): void => {
     setIsWriteMessageOpen(!isWriteMessageOpen);
   };
 
@@ -38,6 +48,7 @@ export default function Home() {
     const roomId = "64d7356a565cb5dc4fa42a22";
     const userId = "64d734debf25a464aa5010fc";
     await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/room/${roomId}`, {
+      // data
       "content": content,
       "user": userId,
     });
@@ -50,6 +61,33 @@ export default function Home() {
 
   // Update rooms data
   React.useEffect(() => {
+    // Authenticates for main page, send Bearer token
+    let isAuthenticated = false;
+
+    const authenticate = async () => {
+      await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/verify`,
+      {},
+      {
+        // config
+        headers: {
+          "Authorization": `Bearer ${getCookie("token")}`,
+        }
+      }
+      )
+      .then((res) => {
+        isAuthenticated = true;
+      })
+      .catch((err) => {
+        if (err.code === "ERR_BAD_REQUEST") {
+          router.replace(`/auth`);
+          return;
+        }
+      });
+
+    };
+
+    authenticate();
+    
     // Get room data in 3 second intervals
     const interval = setInterval(async () => {
       // console.log("refetch room data");
@@ -66,13 +104,6 @@ export default function Home() {
   }, []);
 
   React.useEffect(() => {
-    // Authenticates for main page
-    // const authenticate = async () => {
-    //   // await axios.get();
-    // };
-
-    // authenticate();
-
     socket.emit("hello");
 
     // When a user joins the room
