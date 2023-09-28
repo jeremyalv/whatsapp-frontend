@@ -21,7 +21,7 @@ export default function Home() {
   const [showChat, setShowChat] = React.useState<boolean>(true); 
   const [selectedRoom, setSelectedRoom] = React.useState<RoomType>();
   const [roomsData, setRoomsData] = React.useState<RoomType[]>([]);
-  const [isWriteMessageOpen, setIsWriteMessageOpen] = React.useState<boolean>(true);
+  const [isWriteMessageOpen, setIsWriteMessageOpen] = React.useState<boolean>(false);
 
   const handleJoinRoom = (room: RoomType) => {
     socket.emit("join_room", room);
@@ -52,11 +52,11 @@ export default function Home() {
   React.useEffect(() => {
     // Get room data in 3 second intervals
     const interval = setInterval(async () => {
-      console.log("refetch room data");
+      // console.log("refetch room data");
       const getRoomData = async () => {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/room/all`);
         const roomsData = await res.data.rooms;
-        await console.log(roomsData);
+        // await console.log(roomsData);
         setRoomsData(roomsData);
       }
       getRoomData();

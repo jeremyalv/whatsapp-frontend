@@ -2,50 +2,34 @@
 
 import {} from "dotenv/config";
 
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 type Props = {}
 
 const AuthPage = (props: Props) => {
-  
-  const [email, setEmail] = React.useState<string>("");
-  const [password, setPassword] = React.useState<string>("");
-  const [rememberMe, setRememberMe] = React.useState<boolean>(false);
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   const handleLogin = async () => {
-    if (email === "" || password === "") {
+    if (phoneNumber === "" || password === "") {
       alert("Warning: Missing login info. Please fill the login fields correctly.");
     };
     
     await axios.post(`${process.env.SERVER_URL}/login`, {
-      "email": email,
+      "phone_number": phoneNumber,
       "password": password,
     });
-    console.debug(email, password);
+
+    console.debug(phoneNumber, password);
   }
-
-  // return (
-  //   <div className={`relative h-screen w-screen flex flex-col justify-start items-center`}>
-  //     <div className='h-[100px] w-full'></div>
-  //     <div className={`flex flex-col justify-start items-center w-[40dvw] h-full bg-gray-200`}>
-  //       <div className='text-5xl font-semibold py-12'>
-  //         Messaging, simplified.
-  //       </div>
-
-  //       <div className={`w-2/3 relative flex flex-col items-center`}>
-  //         <div className='text-xl py-2'>Login</div>
-  //         <div>Email</div>
-  //         <input type='text' className='w-full py-2 rounded-lg'></input>
-
-  //         <div>Password</div>
-  //         <input type='password'></input>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
+  
   return (
     <section className="flex flex-row justify-center h-screen w-screen">
       <div className="container w-full h-full px-6 py-24">
@@ -66,21 +50,52 @@ const AuthPage = (props: Props) => {
           {/* <!-- Right column container with form --> */}
           <div className="md:w-8/12 lg:ml-6 lg:w-5/12">
             <form>
-              {/* <!-- Email input --> */}
+
               <div className="relative mb-6" data-te-input-wrapper-init>
-                <input
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  type="text"
-                  className="peer block min-h-[auto] w-full rounded border bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-500 dark:placeholder:text-neutral-500 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                  id="exampleFormControlInput3"
-                  placeholder="Email address" />
+                {/* <!-- Phone Number input --> */}
+                <PhoneInput 
+                  country={"id"}
+                  value={phoneNumber}
+                  onChange={(phoneNumber) => {
+                    setPhoneNumber(phoneNumber);
+                    console.log(phoneNumber);
+                  }}
+                  enableSearch={true}
+
+                  containerStyle={{
+                    display: "block",
+                    width: "100%",
+                    height: "100%",
+                    lineHeight: "2.15",
+                  }}
+                  inputStyle={{ 
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "0.25rem",
+                    // padding: "5.12px 12px",
+                    outline: "none",
+                    minHeight: "50px",
+                    backgroundColor: "transparent",
+                  }}
+                  searchStyle={{
+                    margin: "4px 2px",
+                    border: "none",
+                    padding: "4px 4px"
+                  }}
+                  dropdownStyle={{
+                    minHeight: "400px",
+                    borderRadius: ".25rem",
+                  }}
+                  searchPlaceholder="Search your country"
+                />
                 <label
-                  htmlFor="exampleFormControlInput3"
-                  className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-700 transition-all duration-200 ease-out -translate-y-[1.15rem] scale-[0.8] peer-focus:text-gray-600"
-                  >Email address
+                  className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-700 transition-all duration-200 ease-out translate-x-[0rem] -translate-y-[2rem] scale-[0.8] peer-focus:text-gray-600"
+                  >
+                    Phone Number
                 </label>
               </div>
+
+              <div className="h-[12px] w-full"></div>
 
               {/* <!-- Password input --> */}
               <div className="relative mb-6" data-te-input-wrapper-init>
@@ -88,13 +103,12 @@ const AuthPage = (props: Props) => {
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   type="password"
-                  className="peer block min-h-[auto] w-full rounded border bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-500 dark:placeholder:text-neutral-500 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                  className="peer block min-h-[50px] w-full rounded border bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-500 dark:placeholder:text-neutral-500 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                   id="exampleFormControlInput33"
                   placeholder="Password" />
                 <label
                   htmlFor="exampleFormControlInput33"
-                  className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-700 transition-all duration-200 ease-out -translate-y-[1.15rem] scale-[0.8] peer-focus:text-gray-600"
-                  // peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary  peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-500 dark:peer-focus:text-primary"
+                  className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-700 transition-all duration-200 ease-out -translate-y-[2rem] scale-[0.8]"
                   >Password
                 </label>
               </div>
