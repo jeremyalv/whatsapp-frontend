@@ -22,8 +22,6 @@ const socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
 export default function Home() {
   const router = useRouter();
 
-  // TODO set to false later on when prod for auth
-  const [showChat, setShowChat] = React.useState<boolean>(true); 
   const [selectedRoom, setSelectedRoom] = React.useState<RoomType>();
   const [roomsData, setRoomsData] = React.useState<RoomType[]>([]);
   const [isWriteMessageOpen, setIsWriteMessageOpen] = React.useState<boolean>(false);
@@ -42,11 +40,30 @@ export default function Home() {
     setIsWriteMessageOpen(!isWriteMessageOpen);
   };
 
-  // @Jere TODO room arg ga kepake karena lgsg cek dari params.
   const handleSentMesage = async (room: RoomType, content: string) => {
-    // @Jere TODO, hardcoded for now.
-    const roomId = "64d7356a565cb5dc4fa42a22";
-    const userId = "64d734debf25a464aa5010fc";
+    // const roomId = "64d7356a565cb5dc4fa42a22";
+    // const userId = "64d734debf25a464aa5010fc";
+    
+    const roomId = room._id;
+    let userId;
+
+    await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/verify`,
+      {},
+      {
+        headers: {
+          "Authorization": `Bearer ${getCookie("token")}`,
+        }
+      }
+    )
+    .then((res) => {
+      userId = res.data.user.userId;
+    })
+    .catch((err) => {
+      return router.replace(`/auth`);
+      // if (err.code === "ERR_BAD_REQUEST") {
+      // }
+    });
+    
     await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/room/${roomId}`, {
       // data
       "content": content,
@@ -62,8 +79,6 @@ export default function Home() {
   // Update rooms data
   React.useEffect(() => {
     // Authenticates for main page, send Bearer token
-    let isAuthenticated = false;
-
     const authenticate = async () => {
       await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/verify`,
       {},
@@ -74,9 +89,6 @@ export default function Home() {
         }
       }
       )
-      .then((res) => {
-        isAuthenticated = true;
-      })
       .catch((err) => {
         if (err.code === "ERR_BAD_REQUEST") {
           router.replace(`/auth`);
@@ -116,15 +128,7 @@ export default function Home() {
     //   console.log("receive message:", message);
     // })
   }, []);
-
-  if (!showChat) {
-    return (
-      <div>
-        AuthPage
-      </div>
-    )
-  }
-
+  
   return (
     <>
       <SideMenu />

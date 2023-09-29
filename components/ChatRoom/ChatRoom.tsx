@@ -18,7 +18,6 @@ interface ChatRoomProps {
 
 const getRoomMessages = async (room: RoomType, allMessages: MessageType[]): Promise<MessageType[]> => {
   const roomId = room._id;
-  console.log("getRoomMessages for #", roomId);
   
   const res = await axios.get(`http://localhost:3010/api/room/64d7356a565cb5dc4fa42a22`);
   const dbMessageJson = await res.data.room_messages;
@@ -37,14 +36,6 @@ const ChatRoom = ({
   const bottomOfRoomRef = React.useRef<HTMLDivElement>(null);
   const [messages, setMessages] = React.useState<MessageType[]>([]);
 
-  const fetchRoomMessages = React.useCallback(async () => {
-    if (room) {
-      const updatedMessages = await getRoomMessages(room, Messages);
-      setMessages(updatedMessages);
-      console.log("Room messages:", updatedMessages);
-    }
-  }, [room]);
-
   const scrollToBottom = React.useCallback(() => {
     if (bottomOfRoomRef) {
       bottomOfRoomRef.current?.scrollIntoView({
@@ -56,6 +47,13 @@ const ChatRoom = ({
 
   React.useEffect(() => {
     console.log("Socket/room info had changed!");
+    scrollToBottom();
+
+    const fetchRoomMessages = async () => {
+      if (room) {
+        const updatedMessages = await getRoomMessages(room, Messages);
+        setMessages(updatedMessages);
+    }};
 
     // Fetch messages data
     fetchRoomMessages()
@@ -65,7 +63,7 @@ const ChatRoom = ({
           console.log("first time scroll to bottom");
         }
       })
-      .catch(console.error);
+    .catch(console.error);
 
     // When another user sends a message to the current room
     socket.on("receive_message", (message: string) => {
@@ -81,7 +79,7 @@ const ChatRoom = ({
         })
         .catch(console.error);
         })
-  }, [socket, room, fetchRoomMessages]);
+  }, [socket, room, scrollToBottom]);
 
 
   // If no room data are given, display template component
