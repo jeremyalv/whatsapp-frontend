@@ -9,13 +9,11 @@ import { useRouter } from 'next/navigation';
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
-type Props = {}
-
-const AuthPage = (props: Props) => {
+const AuthPage = () => {
   const router = useRouter();
   
-  const [phoneNumber, setPhoneNumber] = useState<string>("+6281280009000");
-  const [password, setPassword] = useState<string>("password");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [formError, setFormError] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>("");
@@ -23,7 +21,7 @@ const AuthPage = (props: Props) => {
 
   const handleLogin = async () => {
     if (phoneNumber === "" || password === "") {
-      alert("Warning: Missing login info. Please fill the login fields correctly.");
+      alert("Missing login info. Please fill the login fields correctly.");
     };
     
     await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/login`, {

@@ -46,9 +46,6 @@ const ChatRoom = ({
   }, []);
 
   React.useEffect(() => {
-    console.log("Socket/room info had changed!");
-    scrollToBottom();
-
     const fetchRoomMessages = async () => {
       if (room) {
         const updatedMessages = await getRoomMessages(room, Messages);
@@ -60,32 +57,32 @@ const ChatRoom = ({
       .then(() => {
         if (room) {
           scrollToBottom();
-          console.log("first time scroll to bottom");
+          // console.log("First time scroll to bottom");
         }
       })
-    .catch(console.error);
+      .catch(console.error);
 
     // When another user sends a message to the current room
     socket.on("receive_message", (message: string) => {
-      console.log("ChatRoom component received message from server!");
+      // console.log("ChatRoom component received message from server!");
       
       // Fetch messages data
-        fetchRoomMessages()
-        .then(() => {
-          if (room) {
-            scrollToBottom();
-            console.log("refresh - scroll to bottom");
-          }
-        })
-        .catch(console.error);
-        })
+      fetchRoomMessages()
+      .then(() => {
+        if (room) {
+          scrollToBottom();
+          // console.log("Receive_message: scroll to bottom");
+        }
+      })
+      .catch(console.error);
+    })
   }, [socket, room, scrollToBottom]);
 
 
   // If no room data are given, display template component
   if (!room) {
     return (
-      <div className='w-full h-full flex flex-col justify-center items-center text-lg font-base'>
+      <div className='w-full h-full flex flex-col justify-center items-center text-xl font-base'>
         No rooms selected. Start chatting now!
       </div>
     )
