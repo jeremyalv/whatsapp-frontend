@@ -12,6 +12,8 @@ const ContentView = ({
   roomMessages,
   bottomRef,
 }: ContentViewProps) => {
+  const [messages, setMessage] = React.useState<MessageType[] | undefined>(roomMessages?.reverse());
+
   return (
     <div className='w-full h-full flex flex-col-reverse overflow-auto'>
       <div className={`
@@ -22,10 +24,10 @@ const ContentView = ({
       `}> 
         {/* Because the columns are doubly reversed, the "bottomRef" is placed at the top. */}
         <div className='mt-4' ref={bottomRef}></div>
-        
+
         {
           // Reverse array for chatroom UX
-          roomMessages?.toReversed().map((message, key) => {
+          messages?.map((message, key) => {
             return (
               <ChatBubble 
                 key={key} 
