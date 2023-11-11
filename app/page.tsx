@@ -3,7 +3,7 @@
 import {} from "dotenv/config";
 
 import axios from "axios";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Socket, io } from "socket.io-client";
 
 import RoomList from "@/components/RoomList/RoomList";
@@ -16,15 +16,18 @@ import { RoomType } from "@/data/Rooms";
 import { headers } from "next/dist/client/components/headers";
 import { config } from "dotenv";
 import { useRouter } from "next/navigation";
+import { UserType } from "@/data/Users";
+import AuthPage from "./auth/page";
 
 const socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
 
 export default function Home() {
   const router = useRouter();
-
-  const [selectedRoom, setSelectedRoom] = React.useState<RoomType>();
-  const [roomsData, setRoomsData] = React.useState<RoomType[]>([]);
-  const [isWriteMessageOpen, setIsWriteMessageOpen] = React.useState<boolean>(false);
+  
+  const [user, setUser] = useState<UserType | undefined>(undefined);
+  const [selectedRoom, setSelectedRoom] = useState<RoomType>();
+  const [roomsData, setRoomsData] = useState<RoomType[]>([]);
+  const [isWriteMessageOpen, setIsWriteMessageOpen] = useState<boolean>(false);
 
   const getCookie = (key: string) => {
     var b = document.cookie.match("(^|;)\\s*" + key + "\\s*=\\s*([^;]+)");
@@ -60,8 +63,6 @@ export default function Home() {
     })
     .catch((err) => {
       return router.replace(`/auth`);
-      // if (err.code === "ERR_BAD_REQUEST") {
-      // }
     });
     
     await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/room/${roomId}`, {
@@ -77,45 +78,44 @@ export default function Home() {
   }
 
   // Update rooms data
-  React.useEffect(() => {
+  useEffect(() => {
     // Authenticates for main page, send Bearer token
     const authenticate = async () => {
-      await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/verify`,
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/verify`,
       {},
       {
         // config
         headers: {
           "Authorization": `Bearer ${getCookie("token")}`,
         }
-      }
-      )
-      .catch((err) => {
-        if (err.code === "ERR_BAD_REQUEST") {
-          router.replace(`/auth`);
-          return;
-        }
       });
 
+      if (res) {
+        setUser(res.data.user.userId);
+      } else {
+        router.replace(`/auth`);
+        return;
+      }
     };
 
+    // Run auth
     authenticate();
     
-    // Get room data in 3 second intervals
+    // Get room data in intervals
     const interval = setInterval(async () => {
       // console.log("refetch room data");
       const getRoomData = async () => {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/room/all`);
         const roomsData = await res.data.rooms;
-        // await console.log(roomsData);
         setRoomsData(roomsData);
       }
       getRoomData();
-    }, 3000);
+    }, 5 * 1000);
 
     return () => clearInterval(interval);
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     socket.emit("hello");
 
     // When a user joins the room

@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react'
+import React, { useEffect, RefObject } from 'react'
 import { MessageType } from '@/data/Messages'
 import ChatBubble from './ChatBubble'
 import { RoomType } from '@/data/Rooms'
@@ -12,8 +12,19 @@ const ContentView = ({
   roomMessages,
   bottomRef,
 }: ContentViewProps) => {
-  const [messages, setMessage] = React.useState<MessageType[] | undefined>(roomMessages?.reverse());
+  const [messages, setMessage] = React.useState<MessageType[] | undefined>([]);
+  
+  useEffect(() => {
+    setMessage(roomMessages?.reverse());
+    // Get room data in intervals
+    // const interval = setInterval(() => {
+    //   // console.log("refetch room data");
+    //   setMessage(roomMessages?.reverse());
+    // }, 5 * 1000);
 
+    // return () => clearInterval(interval);
+  }, [roomMessages]);
+  
   return (
     <div className='w-full h-full flex flex-col-reverse overflow-auto'>
       <div className={`

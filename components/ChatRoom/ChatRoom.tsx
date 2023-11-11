@@ -19,10 +19,9 @@ interface ChatRoomProps {
 const getRoomMessages = async (room: RoomType, allMessages: MessageType[]): Promise<MessageType[]> => {
   const roomId = room._id;
   
+  console.log("Retrieving room messages...");
   const res = await axios.get(`http://localhost:3010/api/room/64d7356a565cb5dc4fa42a22`);
   const dbMessageJson = await res.data.room_messages;
-
-  // const result = allMessages.filter((message) => message.room === roomId).concat(dbMessageJson);
   const result = dbMessageJson;
   
   return result;
@@ -41,6 +40,7 @@ const ChatRoom = ({
       bottomOfRoomRef.current?.scrollIntoView({
         behavior: "smooth",
         block: "end",
+        inline: "end"
       });
     }
   }, []);
